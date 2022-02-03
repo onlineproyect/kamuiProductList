@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Roboto:wght@500&display=swap');
+
+body {
+    /* background-image: url(./kamuibackground.jpeg);
+    background-size: 200px;
+    background-repeat: repeat; */
+
+}
+a,#num {
+    text-decoration: none;
+    font-size: 2em;
+}
+.header {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    margin-bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+}
+
+.img-header {
+    margin-left: 15px;
+    width: 2%;
+}
+
+.container {
+    padding: 10px;
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-content: space-around; */
+    background: #f7fafc;
+    /* background: #0f0f0f; */
+}
+
+.card {
+    background: white;
+    font-family: 'Roboto', sans-serif;
+    /* font-weight: ; */
+    margin: 5px;
+    width: 20%;
+    /* padding: 10px; */
+    /* border: 1px solid; */
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 10%), 0 1px 2px 0 rgb(0 0 0 / 6%);
+    /* height: 200px; */
+    /* height: fit-content; */
+}
+.card:hover{
+    transform: scale(1.1);
+    transition: linear 0.5s;
+}
+
+.imgCont,
+img {
+    width: 100%;
+}
+
+.info {
+    padding: 10px;
+}
+
+.name {
+    font-size: 22px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.desc {
+    color: gray;
+    font-size: 12px;
+    text-align: center;
+}
+
+.category {
+    padding: 3px;
+    font-size: 12px;
+    border-radius: 3px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.category-socks {
+    color: #4882f3;
+    background-color: #d5eaff;
+}
+
+.category-snapbacks {
+    color: #4cc14c;
+    background-color: #e6ffef;
+}
+
+.price {
+    margin-top: 15px;
+    font-size: 2em;
+    margin-bottom: 5px;
+    text-align: center;
+    color: #e7d829;
+    font-weight: bolder;
+    background: #0f0f0f;
+    border-radius: 3px;
+}
+
+@media (max-width: 479px) and (min-width: 320px) {
+    .header {
+        width: 100%;
+        position: fixed;
+        top: 0;
+    }
+
+    .img-header {
+        width: 7%;
+    }
+
+    a,#num {
+        font-size: 16px;
+    }
+
+    .container {
+        width: 90%;
+        margin-top: 40px;
+    }
+
+    .card {
+        width: 45%;
+    }
+
+    .name {
+        font-size: 14px;
+    }
+
+    .desc {
+        font-size: 10px;
+    }
+
+    .category {
+        margin-top: 5px;
+        font-size: 8px;
+    }
+    .price {
+        color: #484748;
+        background:none;
+        margin-top: 10px;
+        /* font-size: 1em; */
+    }
+}
