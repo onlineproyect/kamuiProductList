@@ -7,6 +7,8 @@
     <title>Kamui Products</title>
     <link rel="stylesheet" href="./normalize.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.7/firebase-firestore.js"></script>
 </head>
 <body>
 
@@ -21,10 +23,21 @@
         </div>
         <a href="https://www.instagram.com/_kamui_caps/">_kamui_caps</a>
     </div>
+
+    <div id="filtro">
+        <select name="" id="selectCategoria">
+            <option selected disabled hidden value="x">Selecciona una categoria</option>
+            <option value="socks">Calcetines</option>
+            <option value="Snapbacks">Caps</option>
+        </select>
+        <button class="btn btnFiltro" onclick="filtro()">Buscar</button>
+        <button class="btn limpiarFiltro" onclick="limpiarFiltro()">LimpiarFiltro</button>
+    </div>
+
     <div id="container" class="container">
 
     </div>
-
+    <script src="firebase.js"></script>
     <script src="./index.js"></script>
 </body>
 </html>

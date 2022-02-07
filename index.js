@@ -1,19 +1,10 @@
-
-const kamuiApi = "https://kamuistore.herokuapp.com/kamuiproducts";
-var kamuiApiImg = "https://kamuistore.herokuapp.com/";
-
-
 const eContainer = document.getElementById('container');
-// const frase = document.getElementById('comment');
-// const contentImg = document.getElementById('content-img');
-// const postCategory = document.getElementById('postCategory');
-// const postSubmit = document.getElementById("postSubmit");
-// const timeDate = document.getElementById("time-date");
+const eSelectCategoria = document.getElementById('selectCategoria');
+var bOnLoad = true;
+var list = [];
+var listRespaldo = [];
 
-// var deleteCategory;
-// const imgPost = document.getElementById('cImg');
-
-async  function getData() {
+async  function getData2() {
 
     let data = [];
 
@@ -76,7 +67,6 @@ async  function getData() {
 
         }
 
-
         newDivName.innerHTML = data[i].name;
         newDivDesc.innerHTML = data[i].description;
         newDivCategory.innerHTML = data[i].category;
@@ -89,74 +79,127 @@ async  function getData() {
         newInfo.appendChild(newDivCategory);
         newInfo.appendChild(newDivPrice);
 
-
         newCard.appendChild(newImgCont); // 2
         newCard.appendChild(newInfo); // 3
 
         eContainer.appendChild(newCard); // 1
-
-        console.log("data[i].image;: ",data[i].image);
-
-
     }
-}
-
-// const thisForm = document.getElementById('myForm');
-// thisForm.addEventListener('submit', async function (e) {
-
-//     // postSubmit.classList.add("btn-blocked");
-//     // postSubmit.disabled = true;
-
-//     e.preventDefault();
-
-//     let name = document.getElementById('name').value;
-//     let description = document.getElementById('description').value;
-//     description.slice(-1) == "." ? null :  description += ".";
-//     let category = document.getElementById('category').value;
-//     let fileInput = document.querySelector('#image');
-
-//     var formdata = new FormData();
-//     formdata.append("name", capitalizeFirstLetter(name));
-//     formdata.append("description", description);
-//     formdata.append("category", category);
-//     // formdata.append("image", fileInput.files[0], fileInput.value);
-
-//     var requestOptions = {
-//         method: 'POST',
-//         body: formdata,
-//         redirect: 'follow'
-//     };
-
-//     await fetch(URL_API_CREATE_NEW_POST, requestOptions).then((response) =>{
-//         // console.log("RESPONSE: ", response);
-//         // const result = response.json();
-
-//         document.getElementById('name').value = '';
-//         document.getElementById('description').value = '';
-//         document.getElementById('category').value = '';
-
-//         postSubmit.classList.remove("btn-blocked");
-//         postSubmit.disabled = false;
-//         Swal.fire("Publicacion con Exito!");
-//     })
-//     .catch((error) =>{
-//         console.log(error);
-//         // document.getElementById('name').value = '';
-//         // document.getElementById('description').value = '';
-//         // document.getElementById('category').value = '';
-//         Swal.fire('Error al Publicar..');
-
-//     });
-    
-// });
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 }
 
 function toggleTheme() {
     var element = document.getElementById("theme");
     element.classList.toggle("dark-mode");
  }
+ 
+async function getData() {
+    // await db.collection('kamuiProducts').orderBy('votes', 'desc').get()
+    await db.collection('kamuiCaps').get()
+      .then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+        list.push(doc.data());
+        listRespaldo = list;
+        bOnLoad = false;
+        
+      })
+    }).catch((error) => {
+        console.error("Error | refesque la pagina o avise al desarrollador: ", error);
+    });
+    // renderList();
+    console.log(list);
 
+    if(!bOnLoad) {
+        renderProductList(list);
+    }
+}
+
+function renderProductList(aLista){
+    for(let i = 0; i < aLista.length; i++){
+
+        let newCard = document.createElement("div"); // 1
+        let newImgCont = document.createElement("div"); // 2
+        let newInfo = document.createElement("div"); // 3
+        
+        newCard.setAttribute("class" , "card");
+        newImgCont.classList.add("imgCont");
+        newInfo.classList.add("info");
+
+        let newImg = document.createElement("img");
+
+        newImg.setAttribute("src", aLista[i].imgUrl);
+
+        let newDivName = document.createElement("div");
+        let newDivDesc = document.createElement("div");
+        let newDivCategory = document.createElement("div");
+        let newDivPrice = document.createElement("div");
+
+        newDivName.classList.add("name");
+        newDivDesc.classList.add("desc");
+        newDivCategory.classList.add("category");
+        newDivPrice.classList.add("price");
+
+        switch(aLista[i].categoria){
+            case "Snapbacks":
+                newDivCategory.classList.add("category-snapbacks");
+            break;
+            case "socks":
+                newDivCategory.classList.add("category-socks");
+            break;
+
+        }
+
+        newDivName.innerHTML = aLista[i].name;
+        newDivDesc.innerHTML = aLista[i].descripcion;
+        newDivCategory.innerHTML = aLista[i].categoria;
+        newDivPrice.innerHTML = aLista[i].precio + "$";
+
+        newImgCont.appendChild(newImg);
+        newInfo.appendChild(newImgCont);
+        newInfo.appendChild(newDivName);
+        newInfo.appendChild(newDivDesc);
+        newInfo.appendChild(newDivCategory);
+        newInfo.appendChild(newDivPrice);
+
+        newCard.appendChild(newImgCont); // 2
+        newCard.appendChild(newInfo); // 3
+
+        eContainer.appendChild(newCard); // 1
+    }
+}
+
+function filtro() {
+    console.log(eSelectCategoria.value);
+
+    if(eSelectCategoria.value == 'x'){
+        console.log("SELECCIONE UNA CATEGORYA");
+        return;
+    }
+
+    while (eContainer.firstChild) eContainer.removeChild(eContainer.firstChild);
+    list = [];
+    obtenerDatosPorFiltro(eSelectCategoria.value);
+}
+
+
+async function obtenerDatosPorFiltro(sCategoria) {
+    await db.collection("kamuiCaps").where("categoria", "==", sCategoria).get().then(querySnapshot => {
+        querySnapshot.docs.forEach(doc => {
+        list.push(doc.data());
+        bOnLoad = false;
+      })
+    }).catch((error) => {
+        console.error("Error | refesque la pagina o avise al desarrollador: ", error);
+    });
+
+    if(!bOnLoad) {
+        renderProductList(list);
+    }
+}
 getData();
+
+
+
+function limpiarFiltro() {
+    while (eContainer.firstChild) eContainer.removeChild(eContainer.firstChild);
+    list = [];
+    renderProductList(listRespaldo);
+}
